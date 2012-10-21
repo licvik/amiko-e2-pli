@@ -1,4 +1,4 @@
-SUBDIRS = countries fonts extensions keymaps Magic skin_default rc_models
+SUBDIRS = countries fonts extensions keymaps skin_default rc_models Magic
 
 dist_pkgdata_DATA = \
 	encoding.conf \
@@ -13,7 +13,6 @@ dist_pkgdata_DATA = \
 	skin_subtitles.xml \
 	skin.xml \
 	startwizard.xml \
-	tutorialwizard.xml \
 	freesat.t1 \
 	freesat.t2 \
 	unicable.xml

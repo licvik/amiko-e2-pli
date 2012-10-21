@@ -91,7 +91,7 @@ eServiceFactoryMP3::eServiceFactoryMP3()
 		if (fd >= 0)
 			close(fd);
 		if (!strncmp(tmp, "ufs912\n", rd) || !strncmp(tmp, "ufs913\n", rd) || !strncmp(tmp, "atevio7500\n", rd) || !strncmp(tmp, "hs7110\n", rd) || !strncmp(tmp, "hs7810a\n", rd) || !strncmp(tmp, "spark7162\n", rd) || !strncmp(tmp, "whitebox\n", rd))
-			extensions.push_back("wmv");
+		extensions.push_back("wmv");
 #endif
 		extensions.push_back("wma");
 		sc->addServiceFactory(eServiceFactoryMP3::id, this, extensions);

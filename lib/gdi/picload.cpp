@@ -661,6 +661,7 @@ void ePicLoad::thread()
 
 void ePicLoad::decodePic()
 {
+#if defined(__sh__)
 	if (m_filepara->id == F_JPEG)
 	{
 		eDebug("[Picload] hardware decode picture... %s",m_filepara->file);
@@ -698,8 +699,8 @@ void ePicLoad::decodePic()
 		
 		fclose(fp);
 	}
-
-	eDebug("[Picload] software decode picture... %s",m_filepara->file);
+#endif
+	eDebug("[Picload] decode picture... %s",m_filepara->file);
 
 	switch(m_filepara->id)
 	{
@@ -784,6 +785,7 @@ void ePicLoad::decodeThumb()
 		}
 	}
 
+#if defined(__sh__)
 	int hw_decoded = 0;
 	if (m_filepara->id == F_JPEG)
 	{
@@ -829,13 +831,13 @@ void ePicLoad::decodeThumb()
 	{
 		switch(m_filepara->id)
 		{
-			case F_PNG: png_load(m_filepara, m_conf.background); break;
-			case F_JPEG: m_filepara->pic_buffer = jpeg_load(m_filepara->file, &m_filepara->ox, &m_filepara->oy, m_filepara->max_x, m_filepara->max_y); break;
-			case F_BMP: m_filepara->pic_buffer = bmp_load(m_filepara->file, &m_filepara->ox, &m_filepara->oy); break;
-			case F_GIF: gif_load(m_filepara); break;
+			case F_PNG:	png_load(m_filepara, m_conf.background); break;
+			case F_JPEG:	m_filepara->pic_buffer = jpeg_load(m_filepara->file, &m_filepara->ox, &m_filepara->oy, m_filepara->max_x, m_filepara->max_y); break;
+			case F_BMP:	m_filepara->pic_buffer = bmp_load(m_filepara->file, &m_filepara->ox, &m_filepara->oy); break;
+			case F_GIF:	gif_load(m_filepara); break;
 		}
 	}
-
+#endif
 	if(exif_thumbnail)
 		::unlink(THUMBNAILTMPFILE);
 
@@ -848,6 +850,7 @@ void ePicLoad::decodeThumb()
 				::mkdir(cachedir.c_str(), 0755);
 
 			//resize for Thumbnail
+#if defined(__sh__)
 			if(!hw_decoded)
 			{
 			
@@ -867,7 +870,7 @@ void ePicLoad::decodeThumb()
 				m_filepara->ox = imx;
 				m_filepara->oy = imy;
 			}
-
+#endif
 			if(jpeg_save(cachefile.c_str(), m_filepara->ox, m_filepara->oy, m_filepara->pic_buffer))
 				eDebug("[Picload] error saving cachefile");
 		}

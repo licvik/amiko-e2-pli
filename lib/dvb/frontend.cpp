@@ -574,6 +574,10 @@ int eDVBFrontend::openFrontend()
 #endif
 				break;
 			}
+			case FE_ATSC:	// placeholder to prevent warning
+			{
+				break;
+			}
 		}
 #endif
 
@@ -917,6 +921,14 @@ void eDVBFrontend::calculateSignalQuality(int snr, int &signalquality, int &sign
 	else if (strstr(m_description, "BCM4506") || strstr(m_description, "BCM4505"))
 	{
 		ret = (snr * 100) >> 8;
+	}
+	else if (!strcmp(m_description, "Vuplus DVB-S NIM")) // VU+Ultimo DVB-S2 NIM
+	{
+		ret = (int)((((float(snr) / (65536.0 / 100.0)) * 0.1600) + (float)0.2100) * 100);
+	}
+	else if (!strcmp(m_description, "BCM7335 DVB-S2 NIM (internal)")) // VU+Duo DVB-S2 Nim
+	{
+		ret = (int)((((float(snr) / (65536.0 / 100.0)) * 0.1600) + (float)0.2100) * 100); // FIXME: calibrate against actual tuner
 	}
 	else if (!strcmp(m_description, "Genpix"))
 	{
@@ -2395,7 +2407,7 @@ RESULT eDVBFrontend::prepare_sat(const eDVBFrontendParametersSatellite &feparm, 
 			feparm.modulation,
 			feparm.pilot,
 			feparm.rolloff);
-		if (satfrequency < fe_info.frequency_min || satfrequency > fe_info.frequency_max)
+		if ((unsigned int)satfrequency < fe_info.frequency_min || (unsigned int)satfrequency > fe_info.frequency_max)
 		{
 			eDebugNoSimulate("%d mhz out of tuner range.. dont tune", satfrequency / 1000);
 			return -EINVAL;

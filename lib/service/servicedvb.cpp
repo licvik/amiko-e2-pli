@@ -82,7 +82,7 @@ int eStaticServiceDVBInformation::getLength(const eServiceReference &ref)
 	return -1;
 }
 
-int eStaticServiceDVBInformation::isPlayable(const eServiceReference &ref, const eServiceReference &ignore, bool simulate)
+int eStaticServiceDVBInformation::isPlayable(const eServiceReference &ref, const eServiceReference &ignore, bool simulate=false)
 {
 	ePtr<eDVBResourceManager> res_mgr;
 	if ( eDVBResourceManager::getInstance( res_mgr ) )
@@ -556,7 +556,7 @@ RESULT eDVBPVRServiceOfflineOperations::reindex()
 
 	eRawFile f;
 
-	int err = f.open(m_ref.path.c_str(), 0);
+	int err = f.open(m_ref.path.c_str());
 	if (err < 0)
 		return -1;
 
@@ -576,7 +576,6 @@ RESULT eDVBPVRServiceOfflineOperations::reindex()
 	}
 
 	parser.stopSave();
-	f.close();
 
 	return 0;
 }
