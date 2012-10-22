@@ -7,6 +7,7 @@
 #include <lib/service/event.h>
 #endif
 
+#include <fstream>
 #include <time.h>
 #include <unistd.h>  // for usleep
 #include <sys/vfs.h> // for statfs
@@ -242,7 +243,7 @@ const eit_event_struct* eventData::get() const
 			unsigned int b = it->second.second[1] + 2;
 			if (pos + b < sizeof(data))
 			{
-			memcpy(data + pos, it->second.second, b );
+			memcpy(data + pos, it->second.second, b);
 			pos += b;
 			descriptors_length += b;
 			}
@@ -757,6 +758,10 @@ void eEPGCache::sectionRead(const __u8 *data, int source, channel_data *channel)
 			eit_event->start_time_4,
 			eit_event->start_time_5,
 			&event_hash);
+
+		std::vector<int>::iterator m_it=find(onid_blacklist.begin(),onid_blacklist.end(),onid);
+		if (m_it != onid_blacklist.end())
+			goto next;
 
 		if ( (TM != 3599) &&		// NVOD Service
 		     (now <= (TM+duration)) &&	// skip old events

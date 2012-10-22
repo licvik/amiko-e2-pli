@@ -584,7 +584,6 @@ public:
 	};
 	
 	virtual RESULT playFile(const char *file) = 0;
-	
 	virtual RESULT playSource(ePtr<iTsSource> &source, const char *priv=NULL) = 0;
 	virtual void stop() = 0;
 	

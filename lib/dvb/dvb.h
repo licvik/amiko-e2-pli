@@ -296,7 +296,6 @@ public:
 
 		/* iDVBPVRChannel */
 	RESULT playFile(const char *file);
-
 	RESULT playSource(ePtr<iTsSource>& source, const char *priv=NULL);
 	void stop();
 
