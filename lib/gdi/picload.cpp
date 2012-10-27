@@ -699,9 +699,9 @@ void ePicLoad::decodePic()
 		
 		fclose(fp);
 	}
-#endif
-	eDebug("[Picload] decode picture... %s",m_filepara->file);
 
+	eDebug("[Picload] decode picture... %s",m_filepara->file);
+#endif
 	switch(m_filepara->id)
 	{
 		case F_PNG:	png_load(m_filepara, m_conf.background); break;
